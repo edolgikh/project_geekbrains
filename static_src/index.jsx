@@ -1,6 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+//import App from './components/App.jsx';
+import App from './components/MessageField';
 
+
+ReactDOM.render(
+    <App />,
+    document.getElementById('root'),
+);
+
+/*
 let messages = ['Привет', 'Как дела?'];
 
 const MessageComponent = (props) => <div>{props.text}</div>;
@@ -27,4 +36,4 @@ const MessageField = (props) => {
 ReactDOM.render(
     <MessageField messages={ messages } />,
     document.getElementById('root'),
-);
+);*/
