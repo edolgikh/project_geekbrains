@@ -1,37 +1,14 @@
-.header{
-    width: 100%;
-    padding: 20px;
-    font-size: 18px;
-    text-align:  center;
-    border-bottom:solid 1px;
-    background-color: lightblue;
-}
-
-.layout {
-    height: 100%;
-    width: 50%;
-    margin: auto;
-}
-.layout_chatlist {
-    float:left;
-    width: 30%;
-}
-.listItem {
-    border-radius: 20px;
-}
-.layout_messagefield {
-    float:left;
-    width: 70%;
-}
 .message-field {
     display: flex;
     flex-direction: column;
     background-color: #e2e2e2;
-    height: 50%;
+    height: 100%;
     width: 100%;
     padding: 20px;
     overflow-y: scroll;
+    box-sizing: border-box;
 }
+
 .message {
     background-color: lightblue;
     padding: 5px 15px;

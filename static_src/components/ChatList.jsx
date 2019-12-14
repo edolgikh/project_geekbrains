@@ -1,19 +1,28 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { List, ListItem } from 'material-ui/List';
-//import PropTypes from "prop-types";
-import Message from "./Message";
+import ContentSend from 'material-ui/svg-icons/content/send';
+import PropTypes from "prop-types";
+
 
 export default class ChatList extends React.Component {
-    state = {
-        chats: ["Чат 1", "Чат 2", "Чат 3"]
+    static propTypes = {
+        chatId: PropTypes.number,
     };
 
     render() {
-
-        const chatElements = this.state.chats.map((chats, index) => (
-            <ListItem className = "listItem" key={ index } primaryText={ chats }/>));
-        return <List>
-            {chatElements}
-        </List>
+        return (
+            <List>
+                <Link to="/chat/1/">
+                    <ListItem primaryText="Chat 1" leftIcon={<ContentSend />} />
+                </Link>
+                <Link to="/chat/2/">
+                    <ListItem primaryText="Chat 2" leftIcon={<ContentSend />} />
+                </Link>
+                <Link to="/chat/3/">
+                    <ListItem primaryText="Chat 3" leftIcon={<ContentSend />} />
+                </Link>
+            </List>
+        )
     }
 }

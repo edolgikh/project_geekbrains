@@ -1,23 +1,33 @@
 import React from 'react';
-import Header from './Header';
+import PropTypes from "prop-types";
 import MessageField from './MessageField';
 import ChatList from './ChatList';
+import Header from './Header';
+import '../styles/layout.css';
+
 
 export default class Layout extends React.Component {
+    static propTypes = {
+        chatId: PropTypes.number,
+    };
+
+    static defaultProps = {
+        chatId: 1,
+    };
 
     render() {
         return (
-            <section>
-                <Header className="header"/>
-                <div className="layout">
-                    <div className="layout_chatlist">
+            <div className="layout">
+                <Header chatId={ this.props.chatId } />
+                <div className="layout-canvas">
+                    <div className="layout-left-side">
                         <ChatList />
                     </div>
-                    <div className="layout_messagefield">
-                        <MessageField />
+                    <div className="layout-right-side">
+                        <MessageField chatId={ this.props.chatId } />
                     </div>
                 </div>
-            </section>
+            </div>
         )
     }
 }
