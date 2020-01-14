@@ -1,12 +1,13 @@
 import React from 'react';
-import {bindActionCreators} from "redux";
 import PropTypes from "prop-types";
+import { bindActionCreators } from "redux";
 import connect from "react-redux/es/connect/connect";
 import { TextField, FloatingActionButton } from 'material-ui';
 import SendIcon from 'material-ui/svg-icons/content/send';
-import Index from '../components/Message';
+import Message from './Message';
+import { sendMessage } from '../actions/messageActions';
 import '../styles/styles.css';
-import {sendMessage} from "../actions/messageActions";
+
 
 class MessageField extends React.Component {
     static propTypes = {
@@ -20,40 +21,48 @@ class MessageField extends React.Component {
         input: '',
     };
 
-    handleSendMessage = (message, sender) => {
-        if (this.state.input.length > 0 || sender === 'bot') {
-            this.props.sendMessage(Object.keys(this.props.messages).length + 1, message, sender, this.props.chatId);
-        }
-        if (sender === 'me') {
-            this.setState({ input: '' });
-        }
+
+    sendMessage = (message, sender) => {
+        const { chatId, messages } = this.props;
+        const messageId = Object.keys(messages).length + 1;
+        this.props.sendMessage(messageId, message, sender, chatId);
     };
 
     handleChange = (event) => {
         this.setState({ [event.target.name]: event.target.value });
     };
 
-    handleKeyUp = (event) => {
+    handleKeyUp = (event, message) => {
         if (event.keyCode === 13) { // Enter
-            this.handleSendMessage(this.state.input, 'me');
+            this.handleSendMessage(message, 'me')
+        }
+    };
+
+    handleSendMessage = (message, sender) => {
+        if (message.length > 0 || sender === 'bot') {
+            this.sendMessage(message, sender);
+        }
+        if (sender === 'me') {
+            this.setState({ input: '' })
         }
     };
 
     render() {
-        const { chatId, messages, chats } = this.props;
+        const { chatId, chats, messages } = this.props;
 
         const messageElements = chats[chatId].messageList.map(messageId => (
-            <Index
+            <Message
                 key={ messageId }
                 text={ messages[messageId].text }
                 sender={ messages[messageId].sender }
-            />));
+            />
+        ));
 
         return [
-            <div key='messageElements' className="message-field">
+            <div key='message-field' className="message-field">
                 { messageElements }
             </div>,
-            <div key='textInput' style={ { width: '100%', display: 'flex' } }>
+            <div key='text-field' style={ { width: '100%', display: 'flex' } }>
                 <TextField
                     name="input"
                     fullWidth={ true }
@@ -61,21 +70,21 @@ class MessageField extends React.Component {
                     style={ { fontSize: '22px' } }
                     onChange={ this.handleChange }
                     value={ this.state.input }
-                    onKeyUp={ this.handleKeyUp }
+                    onKeyUp={ (event) => this.handleKeyUp(event, this.state.input) }
                 />
-                <FloatingActionButton
-                    onClick={ () => this.handleSendMessage(this.state.input, 'me') }>
+                <FloatingActionButton onClick={ () => this.handleSendMessage(this.state.input, 'me') }>
                     <SendIcon />
                 </FloatingActionButton>
             </div>
         ]
     }
 }
-const mapStateToProps = ({ messageReducer, chatReducer }) => ({
-    messages: messageReducer.messages,
+
+const mapStateToProps = ({ chatReducer, messageReducer }) => ({
     chats: chatReducer.chats,
+    messages: messageReducer.messages,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({sendMessage}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ sendMessage }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(MessageField);
