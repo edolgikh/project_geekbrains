@@ -9,7 +9,29 @@
     box-sizing: border-box;
 }
 
+.message {
+    background-color: lightblue;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 18px;
+    margin: 5px;
+}
+
 .message-sender {
     color: gray;
     font-size: 14px;
+}
+.chatElement{
+    display: flex;
+}
+.deleteChat{
+    height: 20%;
+}
+.activeChat{
+    background: aqua;
+    display: flex;
+}
+.inactiveChat{
+    background-color: darkgray;
+    display: flex;
 }
