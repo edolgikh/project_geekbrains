@@ -1,14 +1,23 @@
 {
   "name": "geekbrains_react",
   "version": "1.0.0",
-  "description": "",
+  "description": "## Оглавление",
   "main": "index.js",
   "scripts": {
     "start": "webpack --mode development",
+    "build": "webpack",
     "server": "webpack-dev-server"
   },
-  "author": "Elena Dolgikh",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Macket/geekbrains_react.git"
+  },
+  "author": "Ivan",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Macket/geekbrains_react/issues"
+  },
+  "homepage": "https://github.com/Macket/geekbrains_react#readme",
   "dependencies": {
     "@babel/cli": "^7.7.0",
     "@babel/core": "^7.7.2",
@@ -16,17 +25,21 @@
     "@babel/preset-env": "^7.7.1",
     "@babel/preset-react": "^7.7.0",
     "babel-loader": "^8.0.6",
+    "connected-react-router": "^6.6.1",
     "css-loader": "^3.2.1",
+    "history": "^4.10.1",
     "material-ui": "^0.20.2",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
+    "react-addons-update": "^15.6.2",
     "react-dom": "^16.12.0",
+    "react-redux": "^7.1.3",
     "react-router-dom": "^5.1.2",
+    "redux": "^4.0.4",
+    "redux-persist": "^6.0.0",
     "style-loader": "^1.0.1",
     "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0"
-  },
-  "devDependencies": {
-    "webpack-cli": "^3.3.10"
   }
 }

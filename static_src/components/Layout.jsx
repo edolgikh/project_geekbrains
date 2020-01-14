@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import MessageField from './MessageField';
 import ChatList from './ChatList';
 import Header from './Header';
