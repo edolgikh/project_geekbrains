@@ -1,16 +1,16 @@
 import update from 'react-addons-update';
-import { SEND_MESSAGE } from '../actions/messageActions';
-import { ADD_CHAT } from "../actions/chatActions";
-import { DELETE_CHAT } from "../actions/chatActions";
-import { ACTIVE_CHAT } from "../actions/chatActions";
+import { SEND_MESSAGE, SUCCESS_MESSAGES_LOADING} from '../actions/messageActions';
+import { ADD_CHAT, HIGHLIGHT_CHAT, UNHIGHLIGHT_CHAT } from "../actions/chatActions";
+import { SUCCESS_CHATS_LOADING } from "../actions/chatActions";
 
 const initialStore = {
-   chats: {
+    chats: {
        1: {title: 'Чат 1', messageList: []},
        2: {title: 'Чат 2', messageList: []},
        3: {title: 'Чат 3', messageList: []},
-   },
-    activeChat: '',
+    },
+    chatsWithNewMessages: [],
+    isLoading: true,
 };
 
 
@@ -24,25 +24,33 @@ export default function chatReducer(store = initialStore, action) {
                } } },
            });
        }
+       case SUCCESS_CHATS_LOADING: {
+           return update(store, {
+               chats: { $set: action.payload.entities.chats },
+               isLoading: { $set: false },
+           });
+       }
+
        case ADD_CHAT: {
            const chatId = Object.keys(store.chats).length + 1;
            return update(store, {
                chats: { $merge: { [chatId]: { title: action.title, messageList: [] } } }
            });
        }
-
-       case DELETE_CHAT: {
+       case HIGHLIGHT_CHAT: {
+           const chatId = Number(action.chatId);
            return update(store, {
-               //chats: store.chats.filter(item => item.chatId !== action.chatId) //НЕ ЗНАЮ как тут написать возвращение массива без элемента
-       });
-       }
-       case ACTIVE_CHAT: {
-           console.log("hi ACTIVE_CHAT from reducer");
-           return update(store, {
-               activeChat: { $set: action.chatId },
+               chatsWithNewMessages: { $set: [...store.chatsWithNewMessages, chatId] }
            });
        }
-
+       case UNHIGHLIGHT_CHAT: {
+           const chatId = Number(action.chatId);
+           const chatsWithNewMessages = [...store.chatsWithNewMessages];
+           delete chatsWithNewMessages[chatsWithNewMessages.indexOf(chatId)];
+           return update(store, {
+               chatsWithNewMessages: { $set: chatsWithNewMessages }
+           });
+       }
        default:
            return store;
    }

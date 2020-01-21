@@ -1,29 +1,23 @@
 import React from 'react';
 import { bindActionCreators } from "redux";
 import connect from "react-redux/es/connect/connect";
+import { push } from 'connected-react-router';
 import { List, ListItem } from 'material-ui/List';
-import {FloatingActionButton, TextField} from 'material-ui';
+import { TextField } from 'material-ui';
 import AddIcon from 'material-ui/svg-icons/content/add';
-import DeleteIcon from 'material-ui/svg-icons/content/delete-sweep';
 import ContentSend from 'material-ui/svg-icons/content/send';
 import PropTypes from "prop-types";
-import { push } from 'connected-react-router';
 import { addChat } from '../actions/chatActions';
-import { deleteChat } from '../actions/chatActions';
 
 
 class ChatList extends React.Component {
    static propTypes = {
        chats: PropTypes.object.isRequired,
+       chatsWithNewMessages: PropTypes.arrayOf(PropTypes.number).isRequired,
        addChat: PropTypes.func.isRequired,
-       deleteChat: PropTypes.func.isRequired,
        push: PropTypes.func.isRequired,
-       activeChat: PropTypes.string,
    };
 
-    static defaultProps = {
-        activeChat: '',
-    };
    state = {
        input: '',
    };
@@ -44,29 +38,23 @@ class ChatList extends React.Component {
            this.setState({ input: '' });
        }
    };
-    handleDeleteChat = (chatId) => {
-        this.props.deleteChat(chatId);
-    };
-    handleNavigate = (link) => {
-        this.props.push(link);
-    };
 
-    render() {
-        console.log("hi from chatList");
-       const { chats, activeChat } = this.props;
+   handleNavigate = (location) => {
+       this.props.push(location);
+   };
+
+   render() {
+       const { chats, chatsWithNewMessages } = this.props;
        const chatElements = Object.keys(chats).map(chatId => (
-           <div  key={ chatId } className = {(chatId == activeChat) ? "activeChat": "inactiveChat"} >
            <ListItem
+               style={ chatsWithNewMessages.indexOf(Number(chatId)) >= 0 ? { backgroundColor: 'red' } : {}}
                primaryText={ chats[chatId].title }
                leftIcon={ <ContentSend /> }
                onClick={ () => this.handleNavigate(`/chat/${chatId}`) }
-           />
-               <button className="deleteChat" onClick={ () => this.handleDeleteChat(chatId) }>
-                   <DeleteIcon />
-               </button>
-           </div>));
+           />)
+       );
 
-        return (
+       return (
            <List>
                { chatElements }
                <ListItem
@@ -91,11 +79,10 @@ class ChatList extends React.Component {
 
 
 const mapStateToProps = ({ chatReducer }) => ({
-   chats: chatReducer.chats,
-    activeChat: chatReducer.activeChat,
-
+    chats: chatReducer.chats,
+    chatsWithNewMessages: chatReducer.chatsWithNewMessages,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ addChat, deleteChat, push }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ addChat, push }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatList);

@@ -21,17 +21,3 @@
     color: gray;
     font-size: 14px;
 }
-.chatElement{
-    display: flex;
-}
-.deleteChat{
-    height: 20%;
-}
-.activeChat{
-    background: aqua;
-    display: flex;
-}
-.inactiveChat{
-    background-color: darkgray;
-    display: flex;
-}

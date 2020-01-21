@@ -4,28 +4,41 @@ import { bindActionCreators } from "redux";
 import connect from "react-redux/es/connect/connect";
 import { TextField, FloatingActionButton } from 'material-ui';
 import SendIcon from 'material-ui/svg-icons/content/send';
+import CircularProgress from 'material-ui/CircularProgress';
 import Message from './Message';
-import { sendMessage } from '../actions/messageActions';
+import { sendMessage  } from '../actions/messageActions';
+import { loadChats } from '../actions/chatActions';
 import '../styles/styles.css';
 
 
 class MessageField extends React.Component {
     static propTypes = {
-        chatId: PropTypes.number.isRequired,
-        messages: PropTypes.object.isRequired,
-        chats: PropTypes.object.isRequired,
-        sendMessage: PropTypes.func.isRequired,
+       chatId: PropTypes.number.isRequired,
+       messages: PropTypes.object.isRequired,
+       chats: PropTypes.object.isRequired,
+       sendMessage: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool.isRequired,
     };
 
     state = {
         input: '',
     };
+    componentDidMount() {
+        this.props.loadChats();
+    }
 
+
+    // componentDidUpdate(prevProps) {
+    //     if (Object.keys(prevProps.messages).length < Object.keys(this.props.messages).length &&
+    //         this.props.messages[Object.keys(this.props.messages).length].sender === 'me') {
+    //         setTimeout(() => this.sendMessage('Не приставай ко мне, я робот!', 'bot'), 1000);
+    //     }
+    // }
 
     sendMessage = (message, sender) => {
-        const { chatId, messages } = this.props;
-        const messageId = Object.keys(messages).length + 1;
-        this.props.sendMessage(messageId, message, sender, chatId);
+       const { chatId, messages } = this.props;
+       const messageId = Object.keys(messages).length + 1;
+       this.props.sendMessage(messageId, message, sender, chatId);
     };
 
     handleChange = (event) => {
@@ -39,15 +52,18 @@ class MessageField extends React.Component {
     };
 
     handleSendMessage = (message, sender) => {
-        if (message.length > 0 || sender === 'bot') {
-            this.sendMessage(message, sender);
-        }
-        if (sender === 'me') {
-            this.setState({ input: '' })
-        }
+       if (message.length > 0 || sender === 'bot') {
+           this.sendMessage(message, sender);
+       }
+       if (sender === 'me') {
+           this.setState({ input: '' })
+       }
     };
 
     render() {
+        if (this.props.isLoading) {
+            return <CircularProgress />
+        }
         const { chatId, chats, messages } = this.props;
 
         const messageElements = chats[chatId].messageList.map(messageId => (
@@ -83,8 +99,9 @@ class MessageField extends React.Component {
 const mapStateToProps = ({ chatReducer, messageReducer }) => ({
     chats: chatReducer.chats,
     messages: messageReducer.messages,
+    isLoading: chatReducer.isLoading,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ sendMessage }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ sendMessage, loadChats  }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(MessageField);
