@@ -1,15 +1,31 @@
-
 import React from 'react';
-import {Link} from "react-router-dom";
+import PropTypes from "prop-types";
+import { Link } from 'react-router-dom';
+import {bindActionCreators} from "redux";
+import connect from "react-redux/lib/connect/connect";
 
-export default class Profile extends React.Component {
+class Profile extends React.Component {
+    static propTypes = {
+        userData: PropTypes.object,
+    };
 
-    render() {
-        return (
-            <div>
-            <h1>User's profile</h1>
-            <Link to={ '/' }>Back</Link>
-            </div>
-        )
-    }
+   render() {
+       const { userData } = this.props;
+       console.log(userData);
+       return (
+           <div className="profile">
+               <h1>Профиль</h1>
+               <div>{userData.name}</div>
+               <div>{userData.email}</div>
+               <div>{userData.phone}</div>
+               <Link to='/'> ← Назад</Link>
+           </div>
+       )
+   }
 }
+const mapStateToProps = ({ profileReducer }) => ({
+    userData: profileReducer.userData,
+});
+const mapDispatchToProps = dispatch => bindActionCreators({  }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

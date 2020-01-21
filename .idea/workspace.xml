@@ -12,17 +12,35 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="JavaScript File" />
         <option value="HTML File" />
+        <option value="JavaScript File" />
       </list>
     </option>
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
   </component>
   <component name="ProjectId" id="1Tykq0Ss7SqZWowtdpweuhC2Tsl" />
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="D:/JavaScript. Level 2/hw_lesson3/js/main.js" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../SmartGit/static_src/index.jsx" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\ReactJS\project_geekbrains\static_src\components\Message" />
+      <recent name="D:\ReactJS\project_geekbrains\static_src\components" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\ReactJS\project_geekbrains\static_src\middlewares" />
+      <recent name="D:\ReactJS\project_geekbrains\static_src\actions" />
+      <recent name="D:\ReactJS\project_geekbrains\static_src\components\Message" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -52,7 +70,9 @@
       <workItem from="1575709545221" duration="11688000" />
       <workItem from="1575818957641" duration="8348000" />
       <workItem from="1576175236230" duration="1297000" />
-      <workItem from="1576313078688" duration="12510000" />
+      <workItem from="1576313078688" duration="37890000" />
+      <workItem from="1578479753971" duration="26939000" />
+      <workItem from="1579016016192" duration="8437000" />
     </task>
     <servers />
   </component>
