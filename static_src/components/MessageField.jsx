@@ -6,34 +6,33 @@ import { TextField, FloatingActionButton } from 'material-ui';
 import SendIcon from 'material-ui/svg-icons/content/send';
 import CircularProgress from 'material-ui/CircularProgress';
 import Message from './Message';
-import { sendMessage  } from '../actions/messageActions';
+import { sendMessage } from '../actions/messageActions';
 import { loadChats } from '../actions/chatActions';
 import '../styles/styles.css';
 
 
 class MessageField extends React.Component {
     static propTypes = {
-       chatId: PropTypes.number.isRequired,
-       messages: PropTypes.object.isRequired,
-       chats: PropTypes.object.isRequired,
-       sendMessage: PropTypes.func.isRequired,
+        chatId: PropTypes.number.isRequired,
+        messages: PropTypes.object.isRequired,
+        chats: PropTypes.object.isRequired,
+        sendMessage: PropTypes.func.isRequired,
+        loadChats: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
     };
 
     state = {
         input: '',
     };
+
     componentDidMount() {
         this.props.loadChats();
+        // fetch('/api/messages.json')
+        //     .then(response => response.json())
+        //     .then(json_data => json_data.forEach(msg => {
+        //       this.props.sendMessage(msg.id, msg.text, msg.sender, msg.chatId);
+        //     }));
     }
-
-
-    // componentDidUpdate(prevProps) {
-    //     if (Object.keys(prevProps.messages).length < Object.keys(this.props.messages).length &&
-    //         this.props.messages[Object.keys(this.props.messages).length].sender === 'me') {
-    //         setTimeout(() => this.sendMessage('Не приставай ко мне, я робот!', 'bot'), 1000);
-    //     }
-    // }
 
     sendMessage = (message, sender) => {
        const { chatId, messages } = this.props;
@@ -64,6 +63,7 @@ class MessageField extends React.Component {
         if (this.props.isLoading) {
             return <CircularProgress />
         }
+
         const { chatId, chats, messages } = this.props;
 
         const messageElements = chats[chatId].messageList.map(messageId => (
@@ -98,10 +98,10 @@ class MessageField extends React.Component {
 
 const mapStateToProps = ({ chatReducer, messageReducer }) => ({
     chats: chatReducer.chats,
-    messages: messageReducer.messages,
     isLoading: chatReducer.isLoading,
+    messages: messageReducer.messages,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ sendMessage, loadChats  }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ sendMessage, loadChats }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(MessageField);
